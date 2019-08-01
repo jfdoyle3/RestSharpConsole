@@ -1,0 +1,30 @@
+var unirest = require("unirest");
+
+var req = unirest("GET", "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-summary");
+
+req.query({
+	"region": "US",
+	"lang": "en"
+});
+
+req.headers({
+	"x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+	"x-rapidapi-key": "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4"
+});
+
+
+req.end(function (res) {
+	if (res.error) throw new Error(res.error);
+
+	console.log(res.body);
+});
+
+
+
+https://club.ministryoftesting.com/t/deserializing-json-response-using-restsharp/18229
+
+
+https://iptv-epg.readthedocs.io/en/latest/
+
+
+https://rapidapi.com/
