@@ -15,8 +15,12 @@ namespace RestSharpConsole
         {
             // Demo Code
             //WorkingRSharp.RSharpDemo();
+            WorkingRSharp.RSharpDemo2();
 
-            WorkingRSharp.YahooStocks();
+
+
+
+            // YahooSite.YahooStocks();
 
         }
     }

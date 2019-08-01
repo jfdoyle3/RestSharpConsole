@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Authenticators;
-using unirest_net.http;
+using System.Data.SqlClient;
+
 
 namespace RestSharpConsole
 {
@@ -26,45 +27,52 @@ namespace RestSharpConsole
             //  int circuitId = (int)jsonObject.season;
             Console.WriteLine(jsonResponse);
         }
-        public static void YahooStocks()
+        public static void RSharpDemo2()
         {
-            HttpResponse<MyClass.RootObject> response = Unirest.get("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-summary?region=US&lang=en")
-                                                          .header("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com")
-                                                          .header("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4")
-                                                          .asJson<MyClass.RootObject>();
-            dynamic jsonResponse = JsonConvert.DeserializeObject(response.ToString());
+            RestClient client = new RestClient("https://jsonplaceholder.typicode.com/");
 
-            Console.WriteLine(jsonResponse);
+            // navigate to /users
+            var request = new RestRequest("/users", Method.GET);
 
-            //RestClient restClient = new RestClient("http://ergast.com/api/f1");
+            // execute the request
+            IRestResponse response = client.Execute(request);
+            var content = response.Content; // requested raw content available as string
 
-            //RestRequest restRequest = new RestRequest("2016/circuits.json", Method.GET);
+            // Console.Write(content);
 
-            //IRestResponse restResponse = restClient.Execute(restRequest);
+            // convert the string to an array of objects, could also convert this using fromObject
+            object dataAsJsonObject = JsonConvert.DeserializeObject(content);
 
-            //dynamic jsonResponse = JsonConvert.DeserializeObject(restResponse.Content);
+            // Console.Write(dataAsJsonObject);
 
-            //// dynamic jsonObject = jsonResponse.MRData.CircuitTable;
-            ////  int circuitId = (int)jsonObject.season;
-            //
-        }
-        internal class MyClass
-        {
-            public class Result
+            // parse the content into a jArray, an array of json
+            JArray dataAsJArray = JArray.Parse(content);
+
+            var dbConnString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Parsing;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+            using (SqlConnection connection = new SqlConnection(dbConnString))
             {
-                public string name { get; set; }
-                public string score { get; set; }
-                public string url { get; set; }
-                public string rlsdate { get; set; }
-                public string rating { get; set; }
-                public string summary { get; set; }
-                public string platform { get; set; }
-            }
+                connection.Open();
 
-            public class RootObject
-            {
-                public List<Result> results { get; set; }
+                // convert the JArray of objects into separate JSON objects
+                foreach (JToken user in dataAsJArray)
+                {
+                    // Console.Write(item);
+                    // SQL Client Documentation on writing SQL commands in C#
+                    SqlCommand insertStatement = new SqlCommand("INSERT into [User] (Id, name, username, email) VALUES (@id, @name, @username, @email)", connection);
+                    insertStatement.Parameters.AddWithValue("@id", user["id"].ToObject<int>());
+                    insertStatement.Parameters.AddWithValue("@name", user["name"].ToString());
+                    insertStatement.Parameters.AddWithValue("@username", user["username"].ToString());
+                    insertStatement.Parameters.AddWithValue("@email", user["email"].ToString());
+
+                    // execute these above queries
+                    insertStatement.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Database Updated");
+                connection.Close();
             }
         }
+
     }
 }
