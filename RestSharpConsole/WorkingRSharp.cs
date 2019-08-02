@@ -32,11 +32,11 @@ namespace RestSharpConsole
             RestClient client = new RestClient("https://jsonplaceholder.typicode.com/");
 
             // navigate to /users
-            var request = new RestRequest("/users", Method.GET);
+            RestRequest request = new RestRequest("/users", Method.GET);
 
             // execute the request
             IRestResponse response = client.Execute(request);
-            var content = response.Content; // requested raw content available as string
+            string content = response.Content; // requested raw content available as string
 
             // Console.Write(content);
 
@@ -48,7 +48,7 @@ namespace RestSharpConsole
             // parse the content into a jArray, an array of json
             JArray dataAsJArray = JArray.Parse(content);
 
-            var dbConnString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Parsing;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string dbConnString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Parsing;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
             using (SqlConnection connection = new SqlConnection(dbConnString))
             {
