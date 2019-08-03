@@ -73,9 +73,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkingRSharp.cs" />
+    <Compile Include="WriteToFile.cs" />
     <Compile Include="YahooSite.cs" />
   </ItemGroup>
   <ItemGroup>
