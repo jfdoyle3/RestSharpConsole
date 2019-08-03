@@ -24,14 +24,15 @@ namespace RestSharpConsole
             RestRequest request = new RestRequest("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-summary?region=US&lang=en", Method.GET);
             request.AddHeader("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             request.AddHeader("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4");
+            request.AddHeader("content-type", "application/json");
             request.RequestFormat = DataFormat.Json;
-
+            
             //Console.WriteLine(request.RequestFormat.ToString);
-            Console.WriteLine();
+            Console.WriteLine(request);
 
         }
 
-    public static void YahooLogin()
+        public static void YahooLogin()
         {
             Console.WriteLine("--> Login Authorized Method <--");
             string userName = "jfdoyle_iii";
@@ -40,6 +41,13 @@ namespace RestSharpConsole
             {
                 Authenticator = new HttpBasicAuthenticator(userName, password)
             };
+            RestRequest request = new RestRequest("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-summary?region=US&lang=en", Method.GET);
+            request.AddHeader("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
+            request.AddHeader("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4");
+            
+            
+
         }
+
     }
 }
