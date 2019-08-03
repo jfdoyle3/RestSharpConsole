@@ -20,7 +20,7 @@ namespace RestSharpConsole
 
 
 
-            YahooSite.YahooStocks();
+            YahooSite.YahooAPI();
 
         }
     }
