@@ -31,18 +31,18 @@ namespace RestSharpConsole
             dynamic jStocks = JsonConvert.DeserializeObject(restResponse.Content);
 
             // jStocks["marketSummaryResponse"]["result"][i]["regularMarketChange"]["fmt"]
-
+            string format = "fmt";
             dynamic stockResult = jStocks["marketSummaryResponse"]["result"];
-            dynamic symbols = stockResult[0]["symbol"];
-            dynamic Change = stockResult[0]["regularMarketChange"]["fmt"];
-            dynamic time = stockResult[0]["regularMarketTime"]["fmt"];
-            dynamic ChgPercent = stockResult[0]["regularMarketChangePercent"]["fmt"];
-            dynamic Price= stockResult[0]["regularMarketPrice"]["fmt"];
-            dynamic MrktClose = stockResult[0]["regularMarketPreviousClose"]["fmt"];
+            dynamic symbol = stockResult[0]["symbol"];
+            dynamic Change = stockResult[0]["regularMarketChange"][format];
+            dynamic time = stockResult[0]["regularMarketTime"][format];
+            dynamic ChgPercent = stockResult[0]["regularMarketChangePercent"][format];
+            dynamic Price= stockResult[0]["regularMarketPrice"][format];
+            dynamic Close = stockResult[0]["regularMarketPreviousClose"][format];
 
 
             // for (int i=0; i<15; i++)
-            Console.WriteLine("Row: 1 {0} {1} {2} {3} {4} {5}",symbols,Change,time,ChgPercent,Price,MrktClose);            
+            Console.WriteLine("Row: 1 {0} {1} {2} {3} {4} {5}",symbol,Change,time,ChgPercent,Price,Close);            
 
             
             ToFile(jStocks["marketSummaryResponse"]["result"][0]);

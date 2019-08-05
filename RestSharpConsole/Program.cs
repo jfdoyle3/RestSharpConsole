@@ -13,14 +13,7 @@ namespace RestSharpConsole
     {
         static void Main(string[] args)
         {
-            // Demo Code
-            //WorkingRSharp.RSharpDemo();
-           // WorkingRSharp.RSharpDemo2();
-
-
-
-
-            YahooSite.YahooAPI();
+          YahooSite.YahooAPI();
 
         }
     }
