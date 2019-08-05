@@ -10,37 +10,42 @@ using System.Data.SqlClient;
 using unirest_net.http;
 using RestSharp.Authenticators;
 using System.IO;
-using QuickType;
+
 
 
 namespace RestSharpConsole
 {
    public class YahooSite
     {
-        
+
         public static void YahooAPI()
         {
-
-            Console.WriteLine("--> API Method <--");
 
             RestClient yahoo = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com");
             RestRequest request = new RestRequest("/market/get-summary?region=US&lang=en", Method.GET);
             request.AddHeader("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             request.AddHeader("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4");
- 
 
             IRestResponse restResponse = yahoo.Execute(request);
 
-            dynamic  jStocks= JsonConvert.DeserializeObject(restResponse.Content);
-            // var jStocks = JsonConvert.DeserializeObject(restResponse.Content);
-            //String jStocksStr = jStocks.ToString();
+            dynamic jStocks = JsonConvert.DeserializeObject(restResponse.Content);
+
+            // jStocks["marketSummaryResponse"]["result"][i]["regularMarketChange"]["fmt"]
+
+            dynamic stockResult = jStocks["marketSummaryResponse"]["result"];
+            dynamic symbols = stockResult[0]["symbol"];
+            dynamic Change = stockResult[0]["regularMarketChange"]["fmt"];
+            dynamic time = stockResult[0]["regularMarketTime"]["fmt"];
+            dynamic ChgPercent = stockResult[0]["regularMarketChangePercent"]["fmt"];
+            dynamic Price= stockResult[0]["regularMarketPrice"]["fmt"];
+            dynamic MrktClose = stockResult[0]["regularMarketPreviousClose"]["fmt"];
 
 
-           
+            // for (int i=0; i<15; i++)
+            Console.WriteLine("Row: 1 {0} {1} {2} {3} {4} {5}",symbols,Change,time,ChgPercent,Price,MrktClose);            
+
             
-
-      
-            //ToFile(jStocks);
+            ToFile(jStocks["marketSummaryResponse"]["result"][0]);
 
 
         }

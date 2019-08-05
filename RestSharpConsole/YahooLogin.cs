@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using unirest_net.http;
 using RestSharp.Authenticators;
 using System.IO;
-using QuickType;
+
 
 namespace RestSharpConsole
 {
