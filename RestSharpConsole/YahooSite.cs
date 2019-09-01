@@ -25,6 +25,7 @@ namespace RestSharpConsole
             RestRequest request = new RestRequest("/market/get-summary?region=US&lang=en", Method.GET);
             request.AddHeader("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             request.AddHeader("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4");
+<<<<<<< Updated upstream
 
             IRestResponse restResponse = yahoo.Execute(request);
 
