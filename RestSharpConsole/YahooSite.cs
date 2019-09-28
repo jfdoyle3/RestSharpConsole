@@ -20,12 +20,12 @@ namespace RestSharpConsole
 
         public static void YahooAPI()
         {
-            Console.WriteLine("Start");
+            Console.Write("Starting:\n Logging in: ");
             RestClient yahoo = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com");
             RestRequest request = new RestRequest("/market/get-summary?region=US&lang=en", Method.GET);
             request.AddHeader("X-RapidAPI-Host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             request.AddHeader("X-RapidAPI-Key", "bd2f89ddc5mshaafba2c2850cce3p1e4c01jsna4733c78a5d4");
-
+            Console.Write("Successful\n");
             IRestResponse restResponse = yahoo.Execute(request);
 
             dynamic jStocks = JsonConvert.DeserializeObject(restResponse.Content);
@@ -33,12 +33,12 @@ namespace RestSharpConsole
 
             JArray stockResult = jStocks["marketSummaryResponse"]["result"];
 
-
+            Console.Write("Scraped Data:\n  Database: ");
             string type = "RS";
 
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=RestSharp;Integrated Security=True";
 
-
+            Console.Write("Open\n");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
@@ -61,7 +61,8 @@ namespace RestSharpConsole
                     insertStatement.ExecuteNonQuery();
                     connection.Close();
                 }
-            }       
+            }
+            Console.WriteLine("Database: Written and Closed");
         }
     }
 }
