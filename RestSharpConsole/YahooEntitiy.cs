@@ -34,26 +34,28 @@ namespace RestSharpConsole
 
             JArray stockResult = jStocks["marketSummaryResponse"]["result"];
 
-            // Console.Write("Scraped Data:\n  Database: ");
-            string method = "RS"; 
+            Console.Write("Scraped Data:\n  Database: ");
+            string method = "RS";
 
             List<string> restStocks = new List<string>();
+            Console.WriteLine("Console Scrape:");
+            for (int i = 0; i < stockResult.Count; i++)
+            {
+                restStocks.Add(DateTime.Now.ToString());
+                restStocks.Add(stockResult[i]["symbol"].ToString());
+                restStocks.Add(stockResult[i]["regularMarketChange"]["fmt"].ToString());
+                restStocks.Add(stockResult[i]["regularMarketTime"]["fmt"].ToString());
+                restStocks.Add(stockResult[i]["regularMarketChangePercent"]["fmt"].ToString());
+                restStocks.Add(stockResult[i]["regularMarketPrice"]["fmt"].ToString());
+                restStocks.Add(stockResult[i]["regularMarketPreviousClose"]["fmt"].ToString());
+                restStocks.Add(method);
+            }
 
-            //for (int i=0; i<stockResult.Count; i++)
-            //{
-            //    restStocks.Add(DateTime.Now.ToString());
-            //    restStocks.Add(stockResult[i]["symbol"].ToString());
-            //    restStocks.Add(stockResult[i]["regularMarketChange"]["fmt"].ToString());
-            //    restStocks.Add(stockResult[i]["regularMarketTime"]["fmt"].ToString());
-            //    restStocks.Add(stockResult[i]["regularMarketChangePercent"]["fmt"].ToString());
-            //    restStocks.Add(stockResult[i]["regularMarketPrice"]["fmt"].ToString());
-            //    restStocks.Add(stockResult[i]["regularMarketPreviousClose"]["fmt"].ToString());
-            //    restStocks.Add(method);
-            //}
-           
 
-            //foreach (string items in restStocks)
-            //    Console.WriteLine(items);
+            foreach (string items in restStocks)
+                Console.WriteLine(items);
+
+            Console.WriteLine("Writing to Database");
             using (RestStocksContext db = new RestStocksContext())
             {
                 for (int i = 0; i < stockResult.Count; i++)
@@ -61,54 +63,19 @@ namespace RestSharpConsole
                     RestStock stocks = new RestStock
                     {
                         TimeStamp = DateTime.Now.ToString(),
-                        Symbol=stockResult[i]["symbol"].ToString(),
+                        Symbol = stockResult[i]["symbol"].ToString(),
                         Change = stockResult[i]["regularMarketChange"]["fmt"].ToString(),
                         Time = stockResult[i]["regularMarketTime"]["fmt"].ToString(),
-                        ChgPct= stockResult[i]["regularMarketChangePercent"]["fmt"].ToString(),
-                        Price= stockResult[i]["regularMarketPrice"]["fmt"].ToString(),
-                        Closing= stockResult[i]["regularMarketPreviousClose"]["fmt"].ToString(),
-                        Method=method
+                        ChgPct = stockResult[i]["regularMarketChangePercent"]["fmt"].ToString(),
+                        Price = stockResult[i]["regularMarketPrice"]["fmt"].ToString(),
+                        Closing = stockResult[i]["regularMarketPreviousClose"]["fmt"].ToString(),
+                        Method = method
                     };
                     db.RestStocks.Add(stocks);
                     db.SaveChanges();
                 }
             }
-            //    foreach (JToken stock in stockResult)
-            //{
-            //    restStocks.Add(DateTime.Now.ToString());
-            //    restStocks.Add(stock["symbol"].ToString());
-            //    restStocks.Add(stock["regularMarketChange"]["fmt"].ToString());
-            //    restStocks.Add(stock["regularMarketTime"]["fmt"].ToString());
-            //    restStocks.Add(stock["regularMarketChangePercent"]["fmt"].ToString());
-            //    restStocks.Add(stock["regularMarketPrice"]["fmt"].ToString());
-            //    restStocks.Add(stock["regularMarketPreviousClose"]["fmt"].ToString());
-            //    restStocks.Add(method);
-            //}
-
-                //foreach(JToken stock in stockResult)
-                //for(int i)
-                //{
-                //    RestStock stocks = new RestStock
-                //    {
-                //        db.RestStocks.Add(DateTime.Now.ToString()),
-                //        db.RestStocks,
-
-                //    }
-                    
-
-                //}
-                //for (int i = 0; i < stockResult.Count; i++)
-                //{
-                //        Stock stocks = new Stock
-                //        {
-                //            TimeStamp = DateTime.Now.ToString(),
-                //            Symbol=
-                            
-                //    };
-
-                //    db..Add(stocks);
-                //    db.SaveChanges();
-            }
+            Console.WriteLine("Database Written and closed");
         }
-
     }
+}
