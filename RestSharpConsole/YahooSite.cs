@@ -18,7 +18,7 @@ namespace RestSharpConsole
     public class YahooSite
     {
 
-        public static void YahooAPI()
+        public static void YahooAPI_SQLWrite()
         {
             Console.Write("Starting:\n Logging in: ");
             RestClient yahoo = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com");
