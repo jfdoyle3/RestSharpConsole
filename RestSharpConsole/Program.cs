@@ -13,8 +13,7 @@ namespace RestSharpConsole
     {
         static void Main(string[] args)
         {
-            // YahooSite.YahooAPI_SQLWrite();
-            YahooEntity.YahooAPI_Entity();
+            YahooSite.YahooAPI_SQLWrite();
 
         }
     }
