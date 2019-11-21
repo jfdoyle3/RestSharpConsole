@@ -46,8 +46,8 @@ namespace RestSharpConsole
                 {
                     connection.Open();
 
-                    SqlCommand insertStatement = new SqlCommand("INSERT into [Stocks] (TimeStamp, Symbol, Change, Time, ChgPct, Price, Closing,Method) VALUES (@TimeStamp, @Symbol, @Change, @Time, @ChgPct, @Price, @Closing, @Method)", connection);
-                    insertStatement.Parameters.AddWithValue("@TimeStamp", DateTime.Now.ToString());
+                    SqlCommand insertStatement = new SqlCommand("INSERT into [Stocks] (DateStamp, Symbol, Change, Time, ChgPct, Price, Closing,Method) VALUES (@DateStamp, @Symbol, @Change, @Time, @ChgPct, @Price, @Closing, @Method)", connection);
+                    insertStatement.Parameters.AddWithValue("@DateStamp", DateTime.Now.ToString());
                     insertStatement.Parameters.AddWithValue("@Symbol", stock["symbol"].ToString());
                     insertStatement.Parameters.AddWithValue("@Change", stock["regularMarketChange"]["fmt"].ToString());
                     insertStatement.Parameters.AddWithValue("@Time", stock["regularMarketTime"]["fmt"].ToString());
