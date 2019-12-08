@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Authenticators;
+﻿using Newtonsoft.Json.Linq;
 
 namespace RestSharpConsole
 {
@@ -13,7 +6,8 @@ namespace RestSharpConsole
     {
         static void Main(string[] args)
         {
-            YahooSite.YahooAPI_SQLWrite();
+            JArray rsStocks = RSYahooAPI.YahooApiScrape();
+            SQLWrite.WriteDB(rsStocks);
 
         }
     }

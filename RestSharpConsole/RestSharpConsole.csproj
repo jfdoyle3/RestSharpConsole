@@ -78,7 +78,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YahooSite.cs" />
+    <Compile Include="SQLWrite.cs" />
+    <Compile Include="RSYahooAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
