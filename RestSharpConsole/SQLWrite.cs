@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Data.SqlClient;
+using System.Data.SQLite;
+
 
 namespace RestSharpConsole
 {
@@ -11,15 +12,16 @@ namespace RestSharpConsole
             string type = "RS";
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=RestSharp;Integrated Security=True";
             // string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FinancialDB;Integrated Security=True";
-
+             string connectionString = @"Data Source=C:\sqlite\DataFarm\RestSharp.db;Version=3;Compress=True;";
+           
             Console.Write("Open\n");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 foreach (JToken stock in rsStocks)
                 {
                     connection.Open();
 
-                    SqlCommand insertStatement = new SqlCommand("INSERT into [RestSharpStocks] (DateStamp, Symbol, Change, MarketTime, ChgPct, Price, Closing, Method) VALUES (@DateStamp, @Symbol, @Change, @MarketTime, @ChgPct, @Price, @Closing, @Method)", connection);
+                    SQLiteCommand insertStatement = new SQLiteCommand("INSERT into [RestSharpStocks] (DateStamp, Symbol, Change, MarketTime, ChgPct, Price, Closing, Method) VALUES (@DateStamp, @Symbol, @Change, @MarketTime, @ChgPct, @Price, @Closing, @Method)", connection);
                     // SqlCommand insertStatement = new SqlCommand("INSERT into [ScrapedStocks] (DateStamp, Symbol, Change, MarketTime, ChgPct, Price, Closing, Method) VALUES (@DateStamp, @Symbol, @Change, @MarketTime, @ChgPct, @Price, @Closing, @Method)", connection);
 
                     insertStatement.Parameters.AddWithValue("@DateStamp", DateTime.Now.ToString());
